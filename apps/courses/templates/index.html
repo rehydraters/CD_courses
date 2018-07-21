@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8"/>
+    <title>Courses</title>
+    </head>
+    <style>
+        td, th {
+        border: 1px solid black;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    </style>
+    <body>
+        <h2>Add a new course</h2>
+        <form action='/course_add' method='post'>
+        {% csrf_token %}
+            <p><label for='name'>Name:</label><input type="text" name="name"></p>
+            <p><label for='desc'>Description:</label><textarea name="desc"></textarea></p>
+            <input type="submit" name="submit" style="background-color: #009E0F; color: white" value="Add">
+        </form>
+        {% if messages %}
+        <ul class>
+          {% for message in messages %}
+            {% if message.tags %} <li class="{{ message.tags }}">{{ message }}</li>{% endif %}
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <h2>Courses</h2>
+        <table>
+            <tr>
+                <th>Course Name</th>
+                <th>Description</th>
+                <th>Date Added</th> 
+                <th>Actions</th>
+            </tr>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.desc }}</a></td>
+                    <td>{{ course.created_at }}</td>
+                    <td><a href="/course/remove/{{course.id}}">remove</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
